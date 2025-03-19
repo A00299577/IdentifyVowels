@@ -1,4 +1,7 @@
-﻿namespace IdentifyVowels
+﻿using System;
+using Microsoft.Maui.Controls;
+
+namespace IdentifyVowels
 {
     public partial class MainPage : ContentPage
     {
@@ -9,16 +12,27 @@
             InitializeComponent();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        private void CheckVowel(object sender, EventArgs e)
         {
-            count++;
+            string? input = letterEntry.Text?.Trim();
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
+            if (!string.IsNullOrEmpty(input) && input.Length == 1 && char.IsLetter(input[0]))
+            {
+                char letter = char.ToLower(input[0]);
+
+                if ("aeiou".Contains(letter))
+                {
+                    resultLabel.Text = "Vowel";
+                }
+                else
+                {
+                    resultLabel.Text = "Not a vowel";
+                }
+            }
             else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            {
+                resultLabel.Text = "Please enter a valid letter.";
+            }
         }
     }
 
